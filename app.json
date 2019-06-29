@@ -11,9 +11,11 @@
     "env": {
           "COUNTRY_CODE": {
             "description": "Your two letter country code (used for purchasing a Twilio Number in that Country)",
-            "value": "AU"
+            "value": "US"
+          },
+          "AREA_CODE": {
+            "description": "Area code to filter twilio phone numbers by",
+            "value": "614"
           }
-        }
-      
-      
+        } 
 }
