@@ -73,8 +73,8 @@ def create_twilio_application(twilio_account_sid,twilio_auth_token):
                             fallback_url=fallback_url,
                         )
     numbers = client.available_phone_numbers(country) \
-               .local.list(area_code=int(area_code),limit=20,voice_enabled=True,sms_enabled=True,mms_enabled=True) \
-               .list()
+               .local \
+               .list(area_code=int(area_code),limit=20,voice_enabled=True,sms_enabled=True,mms_enabled=True)
 
     number = client.incoming_phone_numbers \
               .create(phone_number=numbers[0].phone_number)
