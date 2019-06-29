@@ -6,7 +6,8 @@ from auth0.v3.management import Auth0
 from twilio.rest import Client
 import os
 
-country = os.getenv(('COUNTRY_CODE'),"AU")
+country = os.getenv(('COUNTRY_CODE'),"US")
+area_code =  os.getenv(('AREA_CODE'),"614")
 
 app = Flask(__name__)
 SESSION_TYPE = 'filesystem'
@@ -72,7 +73,7 @@ def create_twilio_application(twilio_account_sid,twilio_auth_token):
                             fallback_url=fallback_url,
                         )
     numbers = client.available_phone_numbers(country) \
-               .mobile \
+               .local.list(area_code=int(area_code),limit=20,voice_enabled=True,sms_enabled=True,mms_enabled=True) \
                .list()
 
     number = client.incoming_phone_numbers \
@@ -154,8 +155,8 @@ def create_heroku_deploy_button():
     env[TWILIO_AUTH_TOKEN]={twilio_auth_token}&
     env[TWILIO_MESSAGE_SERVICE_SID]={twilio_message_service_sid}&
     env[TWILIO_STATUS_CALLBACK_URL]={heroku_base_url}/twilio-message-report&
-    env[PHONE_NUMBER_COUNTRY]=AU&
-    env[DST_REFERENCE_TIMEZONE]=Australia/Melbourne&
+    env[PHONE_NUMBER_COUNTRY]={country}&
+    env[DST_REFERENCE_TIMEZONE]=AAmerica/New_York&
     env[NOT_IN_USA]=true&
     env[BULK_SEND_CHUNK_SIZE]=20
     '''.format(**session).replace('\n','').replace(' ','')
